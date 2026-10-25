@@ -9,6 +9,11 @@ const TOOL_LINKS: { label: string; type: QrCategoryId }[] = [
   { label: "WhatsApp QR Code", type: "whatsapp" },
 ];
 
+const LANDING_LINKS = [
+  { label: "URL QR Code Generator", to: "/url-qr-code-generator" as const },
+  { label: "Wi-Fi QR Code Generator", to: "/wifi-qr-code-generator" as const },
+];
+
 const COMPANY_LINKS = [
   { label: "Home", to: "/" as const },
   { label: "QR Generator", to: "/generator" as const },
@@ -49,6 +54,15 @@ export function Footer() {
                     {link.label}
                   </Link>
                 </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="More QR tools">
+            <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-foreground">More QR tools</h2>
+            <ul className="mt-4 space-y-2.5">
+              {LANDING_LINKS.map((link) => (
+                <li key={link.to}><Link to={link.to} className="text-sm text-muted-foreground transition-colors hover:text-primary">{link.label}</Link></li>
               ))}
             </ul>
           </nav>
