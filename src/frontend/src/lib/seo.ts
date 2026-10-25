@@ -60,6 +60,14 @@ function buildBreadcrumbSchema(items: BreadcrumbItem[]): Record<string, unknown>
   };
 }
 
+const WEBSITE_SCHEMA: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+  inLanguage: "en",
+};
+
 const WEB_APPLICATION_SCHEMA: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
@@ -75,29 +83,24 @@ export function useSeo(config: SeoConfig): void {
   const { title, description, path, breadcrumbs, structuredData } = config;
 
   useEffect(() => {
-    const canonical = `${SITE_URL}${path}`;
+    // Canonical URLs always use the production origin and omit query parameters.
+    const canonicalPath = path === "/" ? "/" : path.replace(/\/$/, "");
+    const canonical = `${SITE_URL}${canonicalPath}`;
     document.title = title;
     upsertMeta("name", "description", description);
+    upsertMeta("name", "robots", window.location.hostname === "qrnova-neon.vercel.app" ? "index,follow" : "noindex,nofollow");
     upsertLink("canonical", canonical);
     upsertMeta("property", "og:title", title);
     upsertMeta("property", "og:description", description);
     upsertMeta("property", "og:url", canonical);
     upsertMeta("property", "og:type", "website");
     upsertMeta("property", "og:site_name", SITE_NAME);
-    upsertMeta("name", "twitter:card", "summary_large_image");
+    upsertMeta("property", "og:locale", "en_US");
+    upsertMeta("name", "twitter:card", "summary");
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:description", description);
 
-    const isProductionHost = window.location.hostname === "qrnova-neon.vercel.app";
-    let robots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
-    if (!robots) {
-      robots = document.createElement("meta");
-      robots.name = "robots";
-      document.head.appendChild(robots);
-    }
-    robots.content = isProductionHost ? "index,follow" : "noindex,nofollow";
-
-    const graph: Record<string, unknown>[] = [WEB_APPLICATION_SCHEMA];
+    const graph: Record<string, unknown>[] = [WEBSITE_SCHEMA, WEB_APPLICATION_SCHEMA];
     if (breadcrumbs?.length) graph.push(buildBreadcrumbSchema(breadcrumbs));
     if (structuredData) graph.push(...structuredData);
     upsertJsonLd("qrnova-structured-data", graph);
