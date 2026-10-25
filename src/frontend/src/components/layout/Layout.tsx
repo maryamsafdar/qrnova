@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { StickyBottomAd } from "./StickyBottomAd";
 import { Footer } from "./Footer";
 import { Navbar } from "./Navbar";
 
@@ -12,6 +13,7 @@ export function Layout({ children }: LayoutProps) {
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <StickyBottomAd />
     </div>
   );
 }
