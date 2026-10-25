@@ -67,86 +67,109 @@ export default function SeoGeneratorLandingPage({
     ],
   });
 
+  const isWifi = category === "wifi";
+
   return (
-    <>
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-primary">Home</Link>
-            <span aria-hidden="true"> / </span>
-            <span>{heading}</span>
-          </nav>
-          <div className="mt-6 max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-1.5 text-xs font-medium text-muted-foreground">
-              <Sparkles className="size-3.5 text-primary" />
-              Free · No signup required
-            </span>
-            <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              {heading}
-            </h1>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>
-          </div>
-
-          <div className="mt-9 grid gap-8 lg:grid-cols-2 lg:gap-10" id="qr-generator">
-            <div className="glass rounded-3xl p-6 shadow-float sm:p-8">
-              <h2 className="font-display text-lg font-semibold text-foreground">Create your QR code</h2>
-              <p className="mt-2 text-sm text-muted-foreground">Enter the details below, then generate and download your code.</p>
-              <div className="mt-5">
-                <CategoryForm category={category} draft={draft} update={update} error={error} onGenerate={generate} />
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="rounded-3xl border border-border bg-card p-6 shadow-elevated">
-                <div className="flex items-center justify-between">
-                  <h2 className="font-display text-lg font-semibold">QR preview</h2>
-                  {generated && <span className="inline-flex items-center gap-1.5 text-xs font-medium text-success"><Check className="size-3.5" /> Ready</span>}
-                </div>
-                <div className="mt-5">
-                  {generated && payload ? (
-                    <StyledQrPreview value={payload} options={options} style={style} label={`QR code: ${heading}`} />
-                  ) : (
-                    <div className="flex aspect-square w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border bg-muted/40 p-8 text-center">
-                      <Sparkles className="size-6 text-primary" />
-                      <p className="text-sm font-medium">Your QR code appears here</p>
-                      <p className="text-xs text-muted-foreground">Complete the form and select Generate QR Code.</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="rounded-3xl border border-border bg-card p-6 shadow-subtle">
-                <DownloadPanel payload={payload} options={options} style={style} generated={generated} />
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 rounded-3xl border border-border bg-card p-6 sm:p-8">
-            <CustomizationPanel options={options} setOptions={setOptions} resetOptions={resetOptions} style={style} setStyle={setStyle} />
-          </div>
-
-          <section className="mt-14 max-w-3xl" aria-labelledby="how-to-heading">
-            <h2 id="how-to-heading" className="font-display text-2xl font-bold">How to use this free QR code generator</h2>
-            <ol className="mt-5 list-decimal space-y-3 pl-6 text-sm leading-relaxed text-muted-foreground">
-              {steps.map((step) => <li key={step}>{step}</li>)}
-            </ol>
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              QRNova creates the code in your browser. Check the generated code with your own phone before printing or sharing it. You can also explore the <Link to="/generator" search={{ type: "url" }} className="font-medium text-primary underline underline-offset-4">full QR code generator</Link> or return to the <Link to="/" className="font-medium text-primary underline underline-offset-4">QRNova homepage</Link>.
-            </p>
-          </section>
-
-          <section className="mt-12 max-w-3xl" aria-labelledby="faq-heading">
-            <h2 id="faq-heading" className="font-display text-2xl font-bold">Frequently asked questions</h2>
-            <div className="mt-5 divide-y divide-border">
-              {faqs.map((faq) => (
-                <details key={faq.question} className="py-4">
-                  <summary className="cursor-pointer font-semibold text-foreground">{faq.question}</summary>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{faq.answer}</p>
-                </details>
-              ))}
-            </div>
-          </section>
+    <section className="border-b border-border">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
+          <Link to="/" className="hover:text-primary">Home</Link>
+          <span aria-hidden="true"> / </span>
+          <span>{heading}</span>
+        </nav>
+        <div className="mt-6 max-w-3xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-1.5 text-xs font-medium text-muted-foreground">
+            <Sparkles className="size-3.5 text-primary" />
+            Free · No signup required
+          </span>
+          <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {heading}
+          </h1>
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>
         </div>
-      </section>
-    </>
+
+        <div className="mt-9 grid gap-8 lg:grid-cols-2 lg:gap-10" id="qr-generator">
+          <div className="glass rounded-3xl p-6 shadow-float sm:p-8">
+            <h2 className="font-display text-lg font-semibold text-foreground">Create your QR code</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Enter the details below, then generate and download your code.</p>
+            <div className="mt-5">
+              <CategoryForm category={category} draft={draft} update={update} error={error} onGenerate={generate} />
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-elevated">
+              <div className="flex items-center justify-between">
+                <h2 className="font-display text-lg font-semibold">QR preview</h2>
+                {generated && <span className="inline-flex items-center gap-1.5 text-xs font-medium text-success"><Check className="size-3.5" /> Ready</span>}
+              </div>
+              <div className="mt-5">
+                {generated && payload ? (
+                  <StyledQrPreview value={payload} options={options} style={style} label={`QR code: ${heading}`} />
+                ) : (
+                  <div className="flex aspect-square w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border bg-muted/40 p-8 text-center">
+                    <Sparkles className="size-6 text-primary" />
+                    <p className="text-sm font-medium">Your QR code appears here</p>
+                    <p className="text-xs text-muted-foreground">Complete the form and select Generate QR Code.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-subtle">
+              <DownloadPanel payload={payload} options={options} style={style} generated={generated} />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 rounded-3xl border border-border bg-card p-6 sm:p-8">
+          <CustomizationPanel options={options} setOptions={setOptions} resetOptions={resetOptions} style={style} setStyle={setStyle} />
+        </div>
+
+        <section className="mt-14 max-w-3xl" aria-labelledby="how-to-heading">
+          <h2 id="how-to-heading" className="font-display text-2xl font-bold">
+            {isWifi ? "How to create a Wi-Fi QR code" : "How to turn a website link into a QR code"}
+          </h2>
+          <ol className="mt-5 list-decimal space-y-3 pl-6 text-sm leading-relaxed text-muted-foreground">
+            {steps.map((step) => <li key={step}>{step}</li>)}
+          </ol>
+          {isWifi ? (
+            <div className="mt-6 space-y-3 text-sm leading-relaxed text-muted-foreground">
+              <h3 className="font-semibold text-foreground">Wi-Fi network name, password and security</h3>
+              <p>The network name (SSID) must match your router's name exactly, including capitalization and spaces. Choose the security option used by your network and enter its password when required. Selecting the wrong security type or mistyping the password can stop a phone from connecting. For a network with no password, select the open-network option.</p>
+              <h3 className="font-semibold text-foreground">How guests connect</h3>
+              <p>Guests can open their phone camera and point it at the printed or on-screen code. If their device recognizes the Wi-Fi payload, it should offer to join the network. Some devices may require a QR scanner or Wi-Fi settings. Test with a second device before displaying the code, and remember that anyone who can scan it may gain network access.</p>
+            </div>
+          ) : (
+            <div className="mt-6 space-y-3 text-sm leading-relaxed text-muted-foreground">
+              <h3 className="font-semibold text-foreground">Where website QR codes are useful</h3>
+              <p>Add a website QR code to business cards, flyers, product packaging, event signage, menus or presentations when people need to open a specific page quickly. Use the full public URL, check for typos, and avoid linking to private or temporary pages that your audience cannot access.</p>
+              <h3 className="font-semibold text-foreground">Download and test before sharing</h3>
+              <p>Download the generated PNG or JPG, scan the saved file from another screen or printed proof, and confirm it opens the intended destination. Keep enough white space around the code and use a size suitable for the expected scanning distance. A standard QR code does not update when a destination changes, so generate a replacement if the URL changes.</p>
+            </div>
+          )}
+          <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+            QRNova creates the code in your browser. You can also explore the{" "}
+            <Link to="/generator" search={{ type: "url" }} className="font-medium text-primary underline underline-offset-4">full QR code generator</Link>,
+            the <Link to="/url-qr-code-generator" className="font-medium text-primary underline underline-offset-4">URL QR code generator</Link>, or the{" "}
+            <Link to="/wifi-qr-code-generator" className="font-medium text-primary underline underline-offset-4">Wi-Fi QR code generator</Link>.
+          </p>
+        </section>
+
+        <section className="mt-12 max-w-3xl" aria-labelledby="faq-heading">
+          <h2 id="faq-heading" className="font-display text-2xl font-bold">Frequently asked questions</h2>
+          <div className="mt-5 divide-y divide-border">
+            {faqs.map((faq) => (
+              <details key={faq.question} className="py-4">
+                <summary className="cursor-pointer font-semibold text-foreground">{faq.question}</summary>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+          <p className="mt-8 text-sm text-muted-foreground">
+            Return to the <Link to="/" className="font-medium text-primary underline underline-offset-4">QRNova homepage</Link> to explore all supported QR code types.
+          </p>
+        </section>
+      </div>
+    </section>
   );
 }
