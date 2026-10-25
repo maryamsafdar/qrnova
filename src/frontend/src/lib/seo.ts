@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 export const SITE_NAME = "QRNova";
-export const SITE_URL = "https://qrnova.app";
+export const SITE_URL = "https://qrnova-neon.vercel.app";
 
 export interface BreadcrumbItem {
   name: string;
@@ -13,18 +13,11 @@ export interface SeoConfig {
   description: string;
   path: string;
   breadcrumbs?: BreadcrumbItem[];
-  /** Extra structured data merged into the page's JSON-LD graph. */
   structuredData?: Record<string, unknown>[];
 }
 
-function upsertMeta(
-  attr: "name" | "property",
-  key: string,
-  content: string,
-): void {
-  let element = document.head.querySelector<HTMLMetaElement>(
-    `meta[${attr}="${key}"]`,
-  );
+function upsertMeta(attr: "name" | "property", key: string, content: string): void {
+  let element = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
   if (!element) {
     element = document.createElement("meta");
     element.setAttribute(attr, key);
@@ -34,9 +27,7 @@ function upsertMeta(
 }
 
 function upsertLink(rel: string, href: string): void {
-  let element = document.head.querySelector<HTMLLinkElement>(
-    `link[rel="${rel}"]`,
-  );
+  let element = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
   if (!element) {
     element = document.createElement("link");
     element.setAttribute("rel", rel);
@@ -56,9 +47,7 @@ function upsertJsonLd(id: string, data: unknown): void {
   element.textContent = JSON.stringify(data);
 }
 
-function buildBreadcrumbSchema(
-  items: BreadcrumbItem[],
-): Record<string, unknown> {
+function buildBreadcrumbSchema(items: BreadcrumbItem[]): Record<string, unknown> {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -78,20 +67,10 @@ const WEB_APPLICATION_SCHEMA: Record<string, unknown> = {
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Any",
   url: SITE_URL,
-  description:
-    "Free browser-based QR code generator to create, customize and download QR codes for URLs, Wi-Fi, contacts, social media and more.",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
+  description: "Free browser-based QR code generator to create, customize and download QR codes for URLs, Wi-Fi, contacts, social media and more.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
-/**
- * Apply per-page SEO metadata: title, description, canonical, Open Graph,
- * breadcrumbs and structured data. Exactly one H1 per page is the page's
- * responsibility; this hook owns everything in the document head.
- */
 export function useSeo(config: SeoConfig): void {
   const { title, description, path, breadcrumbs, structuredData } = config;
 
@@ -100,21 +79,26 @@ export function useSeo(config: SeoConfig): void {
     document.title = title;
     upsertMeta("name", "description", description);
     upsertLink("canonical", canonical);
-
     upsertMeta("property", "og:title", title);
     upsertMeta("property", "og:description", description);
     upsertMeta("property", "og:url", canonical);
     upsertMeta("property", "og:type", "website");
     upsertMeta("property", "og:site_name", SITE_NAME);
-
     upsertMeta("name", "twitter:card", "summary_large_image");
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:description", description);
 
-    const graph: Record<string, unknown>[] = [WEB_APPLICATION_SCHEMA];
-    if (breadcrumbs && breadcrumbs.length > 0) {
-      graph.push(buildBreadcrumbSchema(breadcrumbs));
+    const isProductionHost = window.location.hostname === "qrnova-neon.vercel.app";
+    let robots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!robots) {
+      robots = document.createElement("meta");
+      robots.name = "robots";
+      document.head.appendChild(robots);
     }
+    robots.content = isProductionHost ? "index,follow" : "noindex,nofollow";
+
+    const graph: Record<string, unknown>[] = [WEB_APPLICATION_SCHEMA];
+    if (breadcrumbs?.length) graph.push(buildBreadcrumbSchema(breadcrumbs));
     if (structuredData) graph.push(...structuredData);
     upsertJsonLd("qrnova-structured-data", graph);
   }, [title, description, path, breadcrumbs, structuredData]);
