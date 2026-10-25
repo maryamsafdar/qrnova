@@ -1,0 +1,103 @@
+.qrnova-sticky-ad {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 42px 8px;
+  background: rgba(255, 255, 255, 0.98);
+  border-top: 1px solid rgba(125, 115, 155, 0.2);
+  box-shadow: 0 -5px 24px rgba(42, 32, 77, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.qrnova-sticky-ad__label {
+  display: block;
+  margin: 0 auto 4px;
+  color: #77738a;
+  font: 500 10px/1.2 system-ui, sans-serif;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.qrnova-sticky-ad__close {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 1px solid #e7e4ee;
+  border-radius: 999px;
+  background: #fff;
+  color: #59536b;
+  font: 400 20px/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.qrnova-sticky-ad__close:hover {
+  background: #f6f3fb;
+}
+
+.qrnova-sticky-ad__content {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.qrnova-sticky-ad__slot {
+  display: block;
+  flex: 0 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.qrnova-sticky-ad__slot--mobile {
+  width: 320px;
+  height: 50px;
+}
+
+.qrnova-sticky-ad__slot--desktop {
+  width: 728px;
+  height: 90px;
+}
+
+body.has-sticky-bottom-ad {
+  padding-bottom: 124px;
+}
+
+@media (max-width: 767px) {
+  .qrnova-sticky-ad {
+    padding: 7px 8px 8px;
+  }
+
+  .qrnova-sticky-ad__content {
+    min-height: 50px;
+  }
+
+  body.has-sticky-bottom-ad {
+    padding-bottom: 86px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 820px) {
+  .qrnova-sticky-ad__slot--desktop {
+    transform: scale(0.94);
+    transform-origin: top center;
+    margin-bottom: -5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qrnova-sticky-ad,
+  .qrnova-sticky-ad * {
+    scroll-behavior: auto;
+    transition: none !important;
+  }
+}
