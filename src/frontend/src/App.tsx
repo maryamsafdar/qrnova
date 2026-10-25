@@ -4,6 +4,8 @@ import type { QrCategoryId } from "@/lib/qr";
 import ContactPage from "@/pages/ContactPage";
 import GeneratorPage from "@/pages/GeneratorPage";
 import HomePage from "@/pages/HomePage";
+import UrlQrLandingPage from "@/pages/UrlQrLandingPage";
+import WifiQrLandingPage from "@/pages/WifiQrLandingPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
@@ -38,6 +40,18 @@ const homeRoute = createRoute({
   component: HomePage,
 });
 
+const urlLandingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/url-qr-code-generator",
+  component: UrlQrLandingPage,
+});
+
+const wifiLandingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/wifi-qr-code-generator",
+  component: WifiQrLandingPage,
+});
+
 const generatorRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/generator",
@@ -69,6 +83,8 @@ const contactRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
+  urlLandingRoute,
+  wifiLandingRoute,
   generatorRoute,
   privacyRoute,
   termsRoute,
