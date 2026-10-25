@@ -18,7 +18,7 @@ function esc(s) { return s.replaceAll("&","&amp;").replaceAll('"',"&quot;").repl
 function setMeta(html, attr, key, value) {
  const tag = "<meta " + attr + "=\"" + key + "\" content=\"" + esc(value) + "\" />";
  const re = new RegExp("<meta\\s+" + attr + "=\\\"" + key + "\\\"[^>]*>", "i");
- return re.test(html) ? html.replace(re, tag) : html.replace("</head>", "    " + tag + "\\n  </head>");
+ return re.test(html) ? html.replace(re, tag) : html.replace("</head>", "    " + tag + "\n  </head>");
 }
 for (const page of pages) {
  const canonical = siteUrl + (page.path === "/" ? "/" : page.path);
@@ -26,7 +26,7 @@ for (const page of pages) {
  html = setMeta(html, "name", "description", page.description);
  html = setMeta(html, "name", "robots", robots);
  const canTag = '<link rel="canonical" href="' + canonical + '" />';
- html = /<link\s+rel="canonical"[^>]*>/i.test(html) ? html.replace(/<link\s+rel="canonical"[^>]*>/i, canTag) : html.replace("</head>", "    " + canTag + "\\n  </head>");
+ html = /<link\s+rel="canonical"[^>]*>/i.test(html) ? html.replace(/<link\s+rel="canonical"[^>]*>/i, canTag) : html.replace("</head>", "    " + canTag + "\n  </head>");
  html = setMeta(html, "property", "og:title", page.title);
  html = setMeta(html, "property", "og:description", page.description);
  html = setMeta(html, "property", "og:url", canonical);
@@ -34,7 +34,7 @@ for (const page of pages) {
  html = setMeta(html, "name", "twitter:description", page.description);
  const schema = [{ "@context":"https://schema.org", "@type":"WebSite", name:"QRNova", url:siteUrl, inLanguage:"en" }, { "@context":"https://schema.org", "@type":"WebApplication", name:"QRNova", applicationCategory:"UtilitiesApplication", operatingSystem:"Any", url:siteUrl, description:"Free browser-based QR code generator for URLs, Wi-Fi, contacts and more.", offers:{ "@type":"Offer", price:"0", priceCurrency:"USD" } }];
  const ld = '<script id="qrnova-structured-data" type="application/ld+json">' + JSON.stringify(schema).replaceAll("<","\\u003c") + "</script>";
- html = html.replace(/<script id="qrnova-structured-data"[\s\S]*?<\/script>/i, "").replace("</head>", "    " + ld + "\\n  </head>");
+ html = html.replace(/<script id="qrnova-structured-data"[\s\S]*?<\/script>/i, "").replace("</head>", "    " + ld + "\n  </head>");
  const main = '<main id="seo-prerender-content"><h1>' + esc(page.heading) + "</h1>" + page.content + "</main>";
  html = html.replace('<div id="root"></div>', '<div id="root">' + main + "</div>");
  const relative = page.path === "/" ? "index.html" : page.path.slice(1) + "/index.html";
