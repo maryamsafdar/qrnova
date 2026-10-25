@@ -10,9 +10,9 @@ import { useSeo } from "@/lib/seo";
 
 export default function HomePage() {
   useSeo({
-    title: "QRNova — Free QR Code Generator: Create, Customize & Download",
+    title: "Free QR Code Generator & Maker Online | QRNova",
     description:
-      "Generate free QR codes for websites, Wi-Fi, contacts, social media and more. Customize colors and styles, then download PNG, JPG or high-resolution print files — no account required.",
+      "Use QRNova as a free QR code generator and maker online. Create website, URL and Wi-Fi QR codes, customize them, and download PNG or JPG files without signup.",
     path: "/",
     breadcrumbs: [{ name: "Home", path: "/" }],
   });
