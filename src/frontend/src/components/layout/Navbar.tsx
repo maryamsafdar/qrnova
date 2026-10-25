@@ -8,6 +8,8 @@ import { Logo } from "./Logo";
 const NAV_LINKS = [
   { label: "Home", to: "/" as const },
   { label: "QR Generator", to: "/generator" as const },
+  { label: "URL QR Code", to: "/url-qr-code-generator" as const },
+  { label: "Wi-Fi QR Code", to: "/wifi-qr-code-generator" as const },
   { label: "QR Categories", to: "/", hash: "categories" },
   { label: "How It Works", to: "/", hash: "how-it-works" },
   { label: "FAQ", to: "/", hash: "faq" },
