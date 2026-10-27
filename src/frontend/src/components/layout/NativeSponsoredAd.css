@@ -1,0 +1,42 @@
+.qrnova-native-ad {
+  width: min(100% - 2rem, 72rem);
+  margin: 2rem auto;
+  padding: 1rem;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  background: hsl(var(--card) / 0.72);
+  text-align: center;
+}
+
+.qrnova-native-ad__label {
+  margin-bottom: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  font: 500 0.7rem/1.3 system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.qrnova-native-ad__content {
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.qrnova-native-ad__content:empty {
+  display: none;
+}
+
+.qrnova-native-ad__content img,
+.qrnova-native-ad__content iframe {
+  max-width: 100%;
+}
+
+.qrnova-native-ad__smartlink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: hsl(var(--primary));
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
