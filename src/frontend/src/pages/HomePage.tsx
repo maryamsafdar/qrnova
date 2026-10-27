@@ -6,6 +6,7 @@ import {
   HowItWorks,
   SeoContent,
 } from "@/components/home";
+import { NativeSponsoredAd } from "@/components/layout/NativeSponsoredAd";
 import { useSeo } from "@/lib/seo";
 
 export default function HomePage() {
@@ -22,6 +23,7 @@ export default function HomePage() {
       <Hero />
       <CategoryGrid />
       <HowItWorks />
+      <NativeSponsoredAd />
       <Features />
       <SeoContent />
       <Faq />
