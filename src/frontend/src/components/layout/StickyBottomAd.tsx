@@ -5,16 +5,16 @@ type AdSize = "mobile" | "desktop";
 
 const AD_CONFIG: Record<AdSize, { key: string; width: number; height: number; src: string }> = {
   mobile: {
-    key: "c746eeb9a9c65d51ef432e9d9b59765a",
+    key: "7a9b03e9d08575daa2f926c7bd9506de",
     width: 320,
     height: 50,
-    src: "https://bauval.org/22/c746eeb9a9c65d51ef432e9d9b59765a",
+    src: "https://bauval.org/22/7a9b03e9d08575daa2f926c7bd9506de",
   },
   desktop: {
-    key: "8f38a181e0e1a04fa876b6c3040aa60b",
+    key: "f64330b1ed5774c2588d8ba21d46dac4",
     width: 728,
     height: 90,
-    src: "https://bauval.org/22/8f38a181e0e1a04fa876b6c3040aa60b",
+    src: "https://bauval.org/22/f64330b1ed5774c2588d8ba21d46dac4",
   },
 };
 
@@ -59,7 +59,7 @@ export function StickyBottomAd() {
     if (!host) return;
 
     host.replaceChildren();
-    // Ad providers commonly read this global while their script initializes.
+    // The provider reads this global as it initializes the single active banner.
     window.atOptions = {
       key: config.key,
       format: "iframe",
@@ -72,18 +72,13 @@ export function StickyBottomAd() {
     script.async = true;
     script.src = config.src;
     script.dataset.qrnovaAd = size;
-    script.onerror = () => {
-      // Keep the ad shell usable if the provider is blocked or unavailable.
-      host.replaceChildren();
-    };
+    script.onerror = () => host.replaceChildren();
     host.appendChild(script);
 
     return () => {
       script.remove();
       host.replaceChildren();
-      if (window.atOptions?.key === config.key) {
-        delete window.atOptions;
-      }
+      if (window.atOptions?.key === config.key) delete window.atOptions;
     };
   }, [size, visible]);
 
