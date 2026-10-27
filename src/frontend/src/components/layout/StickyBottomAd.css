@@ -52,20 +52,24 @@
 
 .qrnova-sticky-ad__slot {
   display: block;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   max-width: 100%;
   overflow: hidden;
   text-align: center;
 }
 
 .qrnova-sticky-ad__slot--mobile {
-  width: 320px;
+  width: min(320px, calc(100vw - 16px));
   height: 50px;
 }
 
 .qrnova-sticky-ad__slot--desktop {
   width: 728px;
   height: 90px;
+}
+
+.qrnova-sticky-ad__slot iframe {
+  max-width: 100%;
 }
 
 body.has-sticky-bottom-ad {
