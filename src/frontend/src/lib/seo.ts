@@ -64,7 +64,8 @@ const WEBSITE_SCHEMA: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: SITE_NAME,
-  url: SITE_URL,
+  alternateName: "qrnova-neon.vercel.app",
+  url: `${SITE_URL}/`,
   inLanguage: "en",
 };
 
